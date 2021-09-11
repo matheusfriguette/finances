@@ -1,19 +1,27 @@
 import axios from "axios";
 import type { NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    const get = async () => {
-      const response = await axios.get("/api/hello");
+  const [input, setInput] = useState("");
 
-      console.log(response);
-    };
+  const setData = async () => {
+    const response = await axios.get("/api/hello", { params: { data: input } });
 
-    get();
-  }, []);
+    console.log(response);
+  };
 
-  return <div>aaa</div>;
+  return (
+    <div>
+      <input
+        onChange={(e) => {
+          setInput(e.currentTarget.value);
+        }}
+        value={input}
+      />
+      <button onClick={() => setData()}>aaaaa</button>
+    </div>
+  );
 };
 
 export default Home;

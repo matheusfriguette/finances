@@ -9,16 +9,14 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const data = {
-    name: "CHAMA",
-  };
-
-  const json = JSON.stringify(data);
-
-  fs.writeFile("data.json", json, "utf-8", () => {});
-
-  fs.readFile("data.json", "utf-8", (err, data) => {
-    const xd = JSON.parse(data);
-    res.status(200).json(xd);
+  fs.readFile("data.json", "utf-8", (err, datax) => {
+    const xd = JSON.parse(datax);
+    const ds = {
+      ...xd,
+      data: xd.data ? [...xd.data, req.query.data] : [req.query.data],
+    };
+    const a = JSON.stringify(ds);
+    fs.writeFile("data.json", a, "utf-8", () => {});
+    res.status(200).json(ds);
   });
 }
